@@ -806,6 +806,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
         return -1;
 
     case mine:
+<<<<<<< Updated upstream
         j = state->hand[currentPlayer][choice1];  //store card we will trash
 
         if (state->hand[currentPlayer][choice1] < copper || state->hand[currentPlayer][choice1] > gold)
@@ -839,6 +840,9 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
         }
 
         return 0;
+=======
+		return mineEffect(state, choice1, choice2, handPos, currentPlayer);
+>>>>>>> Stashed changes
 
     case remodel:
         j = state->hand[currentPlayer][choice1];  //store card we will trash
@@ -1041,6 +1045,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
                     printf("No cards to reveal\n");
                 }
             }
+
         }
 
         else {
@@ -1368,6 +1373,53 @@ int updateCoins(int player, struct gameState *state, int bonus)
     return 0;
 }
 
+/***********************************************************
+* int mineEffect(struct gameState *state, int choice1, int choice2, int handPos)
+* state: current game state
+* choice1: hand position of treasure to trash
+* choice2: supply number of treasure you wish to gain
+* handPos: position in hand of this card
+* currentPlayer: the active player
+*
+* Returns 0 on success, -1 on failure
+************************************************************/
+int mineEffect(struct gameState *state, int choice1, int choice2, int handPos, int currentPlayer)
+{
+    int toBeTrashed = state->hand[currentPlayer][choice1];  //store card we will trash
+
+    if (state->hand[currentPlayer][choice1] < copper || state->hand[currentPlayer][choice1] > gold)
+    {
+        return -1;
+    }
+
+    if (choice2 > treasure_map || choice2 < curse)
+    {
+        return -1;
+    }
+
+    if ( (getCost(state->hand[currentPlayer][choice1]) + 3) > getCost(choice2) )
+    {
+        return -1;
+    }
+
+	//draw new treasure to your hand
+    gainCard(choice2, state, 2, currentPlayer);
+
+    //discard trashed card
+    for (int i = 0; i < state->handCount[currentPlayer]; i++)
+    {
+        if (state->hand[currentPlayer][i] == toBeTrashed)
+        {
+            discardCard(i, currentPlayer, state, 0);
+            break;
+        }
+    }
+
+    //discard this card from hand
+    discardCard(handPos, currentPlayer, state, 1);
+
+    return 0;
+}
 
 //end of dominion.c
 
