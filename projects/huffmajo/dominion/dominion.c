@@ -1138,7 +1138,7 @@ int baronEffect(struct gameState *state, int choice1, int currentPlayer)
     state->numBuys++;//Increase buys by 1!
     if (choice1 > 0) { //Boolean true or going to discard an estate
         int p = 0;//Iterator for hand!
-        int card_not_discarded = 1;//Flag for discard set!
+        int card_not_discarded = 0;//Flag for discard set!
         while(card_not_discarded) {
             if (state->hand[currentPlayer][p] == estate) { //Found an estate card!
                 state->coins += 4;//Add 4 coins to the amount of coins
@@ -1183,7 +1183,7 @@ int baronEffect(struct gameState *state, int choice1, int currentPlayer)
             }
         }
     }
-
+    state->numBuys++;//Increase buys by 1!
 
     return 0;
 
@@ -1218,11 +1218,11 @@ int minionEffect(struct gameState *state, int choice1, int handPos, int currentP
         //discard hand
         while(numHandCards(state) > 0)
         {
-            discardCard(handPos, currentPlayer, state, 0);
+            discardCard(handPos, currentPlayer, state, 1);
         }
 
         //draw 4
-        for (int i = 0; i < 4; i++)
+        for (int i = 1; i < 4; i++)
         {
             drawCard(currentPlayer, state);
         }
@@ -1288,7 +1288,7 @@ int ambassadorEffect(struct gameState *state, int choice1, int choice2, int hand
             numCopies++;
         }
     }
-    if (numCopies < choice2)
+    if (numCopies > choice2)
     {
         return -1;
     }
@@ -1313,7 +1313,7 @@ int ambassadorEffect(struct gameState *state, int choice1, int choice2, int hand
     {
         for (int i = 0; i < state->handCount[currentPlayer]; i++)
         {
-            if (state->hand[currentPlayer][i] == state->hand[currentPlayer][choice1])
+            if (state->hand[currentPlayer][j] == state->hand[currentPlayer][choice1])
             {
                 discardCard(i, currentPlayer, state, 1);
                 break;
@@ -1382,14 +1382,14 @@ int tributeEffect(struct gameState *state, int handPos, int currentPlayer)
     }
 
     for (int i = 0; i <= 2; i ++) {
-		if (cardType(tributeRevealedCards[i]) == 1) //treasure card
+		if (cardType(tributeRevealedCards[i]) == 0) //treasure card
 		{
             state->coins += 2;
         }
 
 		else if (cardType(tributeRevealedCards[i]) == 2) //victory card
 		{
-            drawCard(currentPlayer, state);
+            drawCard(nextPlayer, state);
             drawCard(currentPlayer, state);
         }
         else //action card
@@ -1418,7 +1418,7 @@ int mineEffect(struct gameState *state, int choice1, int choice2, int handPos, i
 	// must be treasure
     if (cardType(choice1) != 1)
     {
-        return -1;
+        return 1;
     }
 
     if (choice2 > treasure_map || choice2 < curse)
@@ -1435,7 +1435,7 @@ int mineEffect(struct gameState *state, int choice1, int choice2, int handPos, i
     discardCard(handPos, currentPlayer, state, 1);
 
 	//draw new treasure to your hand
-    gainCard(choice2, state, 2, currentPlayer);
+    gainCard(choice1, state, 2, currentPlayer);
 
     //discard trashed card
     for (int i = 0; i < state->handCount[currentPlayer]; i++)
