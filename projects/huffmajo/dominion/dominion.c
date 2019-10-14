@@ -957,62 +957,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
         return 0;
 
     case ambassador:
-        j = 0;		//used to check if player has enough cards to discard
-
-        if (choice2 > 2 || choice2 < 0)
-        {
-            return -1;
-        }
-
-        if (choice1 == handPos)
-        {
-            return -1;
-        }
-
-        for (i = 0; i < state->handCount[currentPlayer]; i++)
-        {
-            if (i != handPos && i == state->hand[currentPlayer][choice1] && i != choice1)
-            {
-                j++;
-            }
-        }
-        if (j < choice2)
-        {
-            return -1;
-        }
-
-        if (DEBUG)
-            printf("Player %d reveals card number: %d\n", currentPlayer, state->hand[currentPlayer][choice1]);
-
-        //increase supply count for choosen card by amount being discarded
-        state->supplyCount[state->hand[currentPlayer][choice1]] += choice2;
-
-        //each other player gains a copy of revealed card
-        for (i = 0; i < state->numPlayers; i++)
-        {
-            if (i != currentPlayer)
-            {
-                gainCard(state->hand[currentPlayer][choice1], state, 0, i);
-            }
-        }
-
-        //discard played card from hand
-        discardCard(handPos, currentPlayer, state, 0);
-
-        //trash copies of cards returned to supply
-        for (j = 0; j < choice2; j++)
-        {
-            for (i = 0; i < state->handCount[currentPlayer]; i++)
-            {
-                if (state->hand[currentPlayer][i] == state->hand[currentPlayer][choice1])
-                {
-                    discardCard(i, currentPlayer, state, 1);
-                    break;
-                }
-            }
-        }
-
-        return 0;
+		ambassadorEffect(state, choice1, choice2, handPos, currentPlayer);
 
     case cutpurse:
 
@@ -1308,7 +1253,7 @@ int baronEffect(struct gameState *state, int choice1, int currentPlayer)
 }
 
 /***********************************************************
-* int minionEffect()
+* int minionEffect(struct gameState *state, int choice1, int handPos, int currentPlayer)
 * state: current game state
 * choice1: choice on +2 coins or discarding hand +4 cards
 *			1: +2 coins
@@ -1373,17 +1318,72 @@ int minionEffect(struct gameState *state, int choice1, int handPos, int currentP
 }
 
 /***********************************************************
-* int ambassadorEffect()
+* int ambassadorEffect(struct gameState *state, int choice1, int choice2, int handPos, int currentPlayer)
 * state: current game state
-* choice1: hand position of treasure to trash
-* choice2: supply number of treasure you wish to gain
+* choice1: hand position of revealed card from hand
+* choice2: number to return to supply
 * handPos: position in hand of this card
 * currentPlayer: the active player
 *
 * Returns 0 on success, -1 on failure
 ************************************************************/
-int ambassadorEffect()
+int ambassadorEffect(struct gameState *state, int choice1, int choice2, int handPos, int currentPlayer)
 {
+    int numCopies = 0;		//used to check if player has enough cards to discard
+
+    if (choice2 > 2 || choice2 < 0)
+    {
+        return -1;
+    }
+
+    if (choice1 == handPos)
+    {
+        return -1;
+    }
+
+    //discard played card from hand
+    discardCard(handPos, currentPlayer, state, 0);
+
+    for (int i = 0; i < state->handCount[currentPlayer]; i++)
+    {
+        if (i == state->hand[currentPlayer][choice1] && i != choice1)
+        {
+            numCopies++;
+        }
+    }
+    if (numCopies < choice2)
+    {
+        return -1;
+    }
+
+    if (DEBUG)
+        printf("Player %d reveals card number: %d\n", currentPlayer, state->hand[currentPlayer][choice1]);
+
+    //increase supply count for choosen card by amount being discarded
+    state->supplyCount[state->hand[currentPlayer][choice1]] += choice2;
+
+    //each other player gains a copy of revealed card
+    for (int i = 0; i < state->numPlayers; i++)
+    {
+        if (i != currentPlayer)
+        {
+            gainCard(state->hand[currentPlayer][choice1], state, 0, i);
+        }
+    }
+
+    //trash copies of cards returned to supply
+    for (int j = 0; j < choice2; j++)
+    {
+        for (int i = 0; i < state->handCount[currentPlayer]; i++)
+        {
+            if (state->hand[currentPlayer][i] == state->hand[currentPlayer][choice1])
+            {
+                discardCard(i, currentPlayer, state, 1);
+                break;
+            }
+        }
+    }
+
 	return 0;
 }
 
@@ -1397,8 +1397,68 @@ int ambassadorEffect()
 *
 * Returns 0 on success, -1 on failure
 ************************************************************/
-int tributeEffect()
+int tributeEffect(struct gameState *state, int choice1, int choice2, int handPos, int currentPlayer)
 {
+	int tributeRevealedCards[2] = {-1, -1};
+	int nextPlayer = getNextPlayer(currentPlayer, state);
+
+    if ((state->discardCount[nextPlayer] + state->deckCount[nextPlayer]) <= 1) {
+        if (state->deckCount[nextPlayer] > 0) {
+            tributeRevealedCards[0] = state->deck[nextPlayer][state->deckCount[nextPlayer]-1];
+            state->deckCount[nextPlayer]--;
+        }
+        else if (state->discardCount[nextPlayer] > 0) {
+            tributeRevealedCards[0] = state->discard[nextPlayer][state->discardCount[nextPlayer]-1];
+            state->discardCount[nextPlayer]--;
+        }
+        else {
+            //No Card to Reveal
+            if (DEBUG) {
+                printf("No cards to reveal\n");
+            }
+        }
+
+    }
+
+    else {
+        if (state->deckCount[nextPlayer] == 0) {
+            for (int i = 0; i < state->discardCount[nextPlayer]; i++) {
+                state->deck[nextPlayer][i] = state->discard[nextPlayer][i];//Move to deck
+                state->deckCount[nextPlayer]++;
+                state->discard[nextPlayer][i] = -1;
+                state->discardCount[nextPlayer]--;
+            }
+
+            shuffle(nextPlayer,state);//Shuffle the deck
+        }
+        tributeRevealedCards[0] = state->deck[nextPlayer][state->deckCount[nextPlayer]-1];
+        state->deck[nextPlayer][state->deckCount[nextPlayer]--] = -1;
+        state->deckCount[nextPlayer]--;
+        tributeRevealedCards[1] = state->deck[nextPlayer][state->deckCount[nextPlayer]-1];
+        state->deck[nextPlayer][state->deckCount[nextPlayer]--] = -1;
+        state->deckCount[nextPlayer]--;
+    }
+
+    if (tributeRevealedCards[0] == tributeRevealedCards[1]) { //If we have a duplicate card, just drop one
+        state->playedCards[state->playedCardCount] = tributeRevealedCards[1];
+        state->playedCardCount++;
+        tributeRevealedCards[1] = -1;
+    }
+
+    for (int i = 0; i <= 2; i ++) {
+        if (tributeRevealedCards[i] == copper || tributeRevealedCards[i] == silver || tributeRevealedCards[i] == gold) { //Treasure cards
+            state->coins += 2;
+        }
+
+        else if (tributeRevealedCards[i] == estate || tributeRevealedCards[i] == duchy || tributeRevealedCards[i] == province || tributeRevealedCards[i] == gardens || tributeRevealedCards[i] == great_hall) { //Victory Card Found
+            drawCard(currentPlayer, state);
+            drawCard(currentPlayer, state);
+        }
+        else { //Action Card
+            state->numActions = state->numActions + 2;
+        }
+    }
+
 	return 0;
 }
 
@@ -1448,6 +1508,26 @@ int mineEffect(struct gameState *state, int choice1, int choice2, int handPos, i
     discardCard(handPos, currentPlayer, state, 1);
 
     return 0;
+}
+
+/***********************************************************
+* int getNextPlayer(int currentPlayer, struct gameState *state)
+* currentPlayer: the active player
+* state: current game state
+*
+* Returns integer of next player
+************************************************************/
+int getNextPlayer(int currentPlayer, struct gameState *state)
+{
+	int nextPlayer;
+	nextPlayer = currentPlayer + 1;
+
+	if (nextPlayer > (state->numPlayers - 1))
+	{
+		nextPlayer = 0;
+	}
+
+	return nextPlayer;
 }
 
 //end of dominion.c
