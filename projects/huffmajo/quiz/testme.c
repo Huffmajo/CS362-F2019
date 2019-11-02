@@ -5,14 +5,26 @@
 
 char inputChar()
 {
-	// TODO: rewrite this function
-	return ' ';
+	// valid ASCII characters are from 33 to 126
+	char randomChar;
+	int randomInt;
+	randomChar = rand() % 94 + 32;
+	return randomChar;
 }
 
 char *inputString()
 {
 	// TODO: rewrite this function
-	return "";
+	int stringLen = 5;
+	char* randomString;
+
+	int i;
+	for (i = 0; i < stringLen; i++)
+	{
+		randomString[i] = inputChar();
+	}
+
+	return randomString;
 }
 
 void testme()
@@ -51,7 +63,39 @@ void testme()
 int main(int argc, char *argv[])
 {
 	srand(time(NULL));
-	testme();
+//	testme();
+	int i;
+	int testLimit = 1001;
+	int allGood = 1;
+	char* ender;
+
+	// loop until failure or test complete
+	for (i = 0; i < testLimit; i++)
+	{
+//		char str[] = inputString();
+/*
+		if (i % 10 == 0)
+		{
+			ender = "\n";
+		}
+		else
+		{
+			ender = "\t";
+		}
+		printf("%s%s", inputString, ender);
+*/
+		char c = inputChar();
+
+		if (i % 20 == 0)
+		{
+			printf("%c\n", c);
+		}
+		else
+		{
+			printf("%c ", c);
+		}
+	}
+
 	return 0;
 }
 
