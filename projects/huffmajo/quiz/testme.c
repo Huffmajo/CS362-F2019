@@ -7,24 +7,25 @@ char inputChar()
 {
 	// valid ASCII characters are from 33 to 126
 	char randomChar;
-	int randomInt;
 	randomChar = rand() % 94 + 32;
 	return randomChar;
 }
 
 char *inputString()
 {
-	// TODO: rewrite this function
-	int stringLen = 5;
-	char* randomString;
+	int stringLen = 6;
+	char randomString[stringLen - 1];
 
 	int i;
 	for (i = 0; i < stringLen; i++)
 	{
-		randomString[i] = inputChar();
+		// we only need to generate characters from 'e' to 't'
+		randomString[i] =  rand() % 16 + 101;
 	}
+	randomString[5] = '\0';
 
-	return randomString;
+	char* strPtr = randomString;
+	return strPtr;
 }
 
 void testme()
@@ -63,27 +64,26 @@ void testme()
 int main(int argc, char *argv[])
 {
 	srand(time(NULL));
-//	testme();
+	testme();
+
+/*
 	int i;
-	int testLimit = 1001;
+	int testLimit = 10;
 	int allGood = 1;
 	char* ender;
 
 	// loop until failure or test complete
 	for (i = 0; i < testLimit; i++)
 	{
-//		char str[] = inputString();
-/*
-		if (i % 10 == 0)
-		{
-			ender = "\n";
-		}
-		else
-		{
-			ender = "\t";
-		}
-		printf("%s%s", inputString, ender);
-*/
+//		TEST inputString()
+		char* str;
+		strcpy(str, inputString());
+
+		printf("%s\n", str);
+
+
+//		TEST inputChar()
+
 		char c = inputChar();
 
 		if (i % 20 == 0)
@@ -93,9 +93,11 @@ int main(int argc, char *argv[])
 		else
 		{
 			printf("%c ", c);
-		}
-	}
 
+		}
+
+	}
+*/
 	return 0;
 }
 
