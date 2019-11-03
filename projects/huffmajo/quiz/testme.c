@@ -5,7 +5,7 @@
 
 char inputChar()
 {
-	// valid ASCII characters are from 33 to 126
+	// generate valid ASCII characters ' ' to '~'
 	char randomChar;
 	randomChar = rand() % 94 + 32;
 	return randomChar;
@@ -16,12 +16,15 @@ char *inputString()
 	int stringLen = 6;
 	char randomString[stringLen - 1];
 
+	// fill string with random chars
 	int i;
 	for (i = 0; i < stringLen; i++)
 	{
-		// we only need to generate characters from 'e' to 't'
+		// only generate characters from 'e' to 't' to pass state 9
 		randomString[i] =  rand() % 16 + 101;
 	}
+
+	// always set last char as null
 	randomString[5] = '\0';
 
 	char* strPtr = randomString;
@@ -65,39 +68,6 @@ int main(int argc, char *argv[])
 {
 	srand(time(NULL));
 	testme();
-
-/*
-	int i;
-	int testLimit = 10;
-	int allGood = 1;
-	char* ender;
-
-	// loop until failure or test complete
-	for (i = 0; i < testLimit; i++)
-	{
-//		TEST inputString()
-		char* str;
-		strcpy(str, inputString());
-
-		printf("%s\n", str);
-
-
-//		TEST inputChar()
-
-		char c = inputChar();
-
-		if (i % 20 == 0)
-		{
-			printf("%c\n", c);
-		}
-		else
-		{
-			printf("%c ", c);
-
-		}
-
-	}
-*/
 	return 0;
 }
 
