@@ -8,35 +8,35 @@
         -:    3:#include<stdlib.h>
         -:    4:#include<time.h>
         -:    5:
-function inputChar called 132738 returned 100% blocks executed 100%
-   132738:    6:char inputChar()
+function inputChar called 339122 returned 100% blocks executed 100%
+   339122:    6:char inputChar()
         -:    7:{
         -:    8:	// valid ASCII characters are from 33 to 126
         -:    9:	char randomChar;
-   132738:   10:	randomChar = rand() % 94 + 32;
+   339122:   10:	randomChar = rand() % 94 + 32;
 call    0 returned 100%
-   132738:   11:	return randomChar;
+   339122:   11:	return randomChar;
         -:   12:}
         -:   13:
-function inputString called 132738 returned 100% blocks executed 100%
-   132738:   14:char *inputString()
+function inputString called 339122 returned 100% blocks executed 100%
+   339122:   14:char *inputString()
         -:   15:{
-   132738:   16:	int stringLen = 6;
-   132738:   17:	char randomString[stringLen - 1];
+   339122:   16:	int stringLen = 6;
+   339122:   17:	char randomString[stringLen - 1];
         -:   18:
         -:   19:	int i;
-   929166:   20:	for (i = 0; i < stringLen; i++)
+  2373854:   20:	for (i = 0; i < stringLen; i++)
 branch  0 taken 86%
 branch  1 taken 14% (fallthrough)
         -:   21:	{
         -:   22:		// we only need to generate characters from 'e' to 't'
-   796428:   23:		randomString[i] =  rand() % 16 + 101;
+  2034732:   23:		randomString[i] =  rand() % 16 + 101;
 call    0 returned 100%
         -:   24:	}
-   132738:   25:	randomString[5] = '\0';
+   339122:   25:	randomString[5] = '\0';
         -:   26:
-   132738:   27:	char* strPtr = randomString;
-   132738:   28:	return strPtr;
+   339122:   27:	char* strPtr = randomString;
+   339122:   28:	return strPtr;
         -:   29:}
         -:   30:
 function testme called 1 returned 0% blocks executed 100%
@@ -48,72 +48,72 @@ function testme called 1 returned 0% blocks executed 100%
         1:   36:	int state = 0;
         -:   37:	while (1)
         -:   38:	{
-   132738:   39:		tcCount++;
-   132738:   40:		c = inputChar();
+   339122:   39:		tcCount++;
+   339122:   40:		c = inputChar();
 call    0 returned 100%
-   132738:   41:		s = inputString();
+   339122:   41:		s = inputString();
 call    0 returned 100%
-   132738:   42:		printf("Iteration %d: c = %c, s = %s, state = %d\n", tcCount, c, s, state);
+   339122:   42:		printf("Iteration %d: c = %c, s = %s, state = %d\n", tcCount, c, s, state);
 call    0 returned 100%
         -:   43:
-   132738:   44:		if (c == '[' && state == 0) state = 1;
+   339122:   44:		if (c == '[' && state == 0) state = 1;
 branch  0 taken 1% (fallthrough)
 branch  1 taken 99%
 branch  2 taken 1% (fallthrough)
 branch  3 taken 99%
-   132738:   45:		if (c == '(' && state == 1) state = 2;
+   339122:   45:		if (c == '(' && state == 1) state = 2;
 branch  0 taken 1% (fallthrough)
 branch  1 taken 99%
 branch  2 taken 1% (fallthrough)
 branch  3 taken 99%
-   132738:   46:		if (c == '{' && state == 2) state = 3;
+   339122:   46:		if (c == '{' && state == 2) state = 3;
 branch  0 taken 1% (fallthrough)
 branch  1 taken 99%
 branch  2 taken 1% (fallthrough)
 branch  3 taken 99%
-   132738:   47:		if (c == ' '&& state == 3) state = 4;
+   339122:   47:		if (c == ' '&& state == 3) state = 4;
 branch  0 taken 1% (fallthrough)
 branch  1 taken 99%
 branch  2 taken 1% (fallthrough)
 branch  3 taken 99%
-   132738:   48:		if (c == 'a' && state == 4) state = 5;
+   339122:   48:		if (c == 'a' && state == 4) state = 5;
 branch  0 taken 1% (fallthrough)
 branch  1 taken 99%
 branch  2 taken 1% (fallthrough)
 branch  3 taken 99%
-   132738:   49:		if (c == 'x' && state == 5) state = 6;
+   339122:   49:		if (c == 'x' && state == 5) state = 6;
 branch  0 taken 1% (fallthrough)
 branch  1 taken 99%
 branch  2 taken 1% (fallthrough)
 branch  3 taken 99%
-   132738:   50:		if (c == '}' && state == 6) state = 7;
+   339122:   50:		if (c == '}' && state == 6) state = 7;
 branch  0 taken 1% (fallthrough)
 branch  1 taken 99%
 branch  2 taken 1% (fallthrough)
 branch  3 taken 99%
-   132738:   51:		if (c == ')' && state == 7) state = 8;
+   339122:   51:		if (c == ')' && state == 7) state = 8;
 branch  0 taken 1% (fallthrough)
 branch  1 taken 99%
 branch  2 taken 1% (fallthrough)
 branch  3 taken 99%
-   132738:   52:		if (c == ']' && state == 8) state = 9;
+   339122:   52:		if (c == ']' && state == 8) state = 9;
 branch  0 taken 1% (fallthrough)
 branch  1 taken 99%
 branch  2 taken 1% (fallthrough)
 branch  3 taken 99%
-   132738:   53:		if (s[0] == 'r' && s[1] == 'e'
+   339122:   53:		if (s[0] == 'r' && s[1] == 'e'
 branch  0 taken 6% (fallthrough)
 branch  1 taken 94%
 branch  2 taken 6% (fallthrough)
 branch  3 taken 94%
-      530:   54:			&& s[2] == 's' && s[3] == 'e'
-branch  0 taken 7% (fallthrough)
-branch  1 taken 93%
-branch  2 taken 8% (fallthrough)
-branch  3 taken 92%
-        3:   55:			&& s[4] == 't' && s[5] == '\0'
-branch  0 taken 33% (fallthrough)
-branch  1 taken 67%
+     1357:   54:			&& s[2] == 's' && s[3] == 'e'
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+branch  2 taken 9% (fallthrough)
+branch  3 taken 91%
+        8:   55:			&& s[4] == 't' && s[5] == '\0'
+branch  0 taken 13% (fallthrough)
+branch  1 taken 88%
 branch  2 taken 100% (fallthrough)
 branch  3 taken 0%
         1:   56:			&& state == 9)
@@ -125,7 +125,7 @@ call    0 returned 100%
         1:   59:			exit(200);
 call    0 returned 0%
         -:   60:		}
-   132737:   61:	}
+   339121:   61:	}
         -:   62:}
         -:   63:
 function main called 1 returned 0% blocks executed 80%

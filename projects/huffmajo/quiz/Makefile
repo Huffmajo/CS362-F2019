@@ -2,7 +2,9 @@
 #
 # 'make all' to compile
 # 'testme' to run program
-# 'gcov testme.c -b' to see coverage/branch coverage
+# 'gcov testme.c' to see coverage
+# 'gcov testme.c -b' to see branch coverage
+# 'make clean' removes the executable
 
 CC=gcc
 TARGET=testme
