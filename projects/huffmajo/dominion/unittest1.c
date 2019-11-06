@@ -6,33 +6,6 @@
 #include "rngs.h"
 #include "interface.h"
 
-#define RED     "\x1b[31m"
-#define GREEN   "\x1b[32m"
-#define RESET   "\x1b[0m"
-
-/***********************************************************
-* void testAssert(int expected, int actual)
-* expected: the determined correct answer
-* actual: the calculated answer
-*
-* Returns nothing. Prints "Test passed" if expected and actual
-* result are the same. Prints "Test failed" with expected and
-* actual results otherwise.
-************************************************************/
-void testAssert(int expected, int actual)
-{
-	if (expected == actual)
-	{
-		printf(GREEN "\tPASSED\t" RESET);
-	}
-	else
-	{
-		printf(RED "\tFAILED\t" RESET);
-	}
-	
-	printf("Expected: %d, Actual: %d\n", expected, actual);
-}
-
 int main()
 {
 	// setup variables
