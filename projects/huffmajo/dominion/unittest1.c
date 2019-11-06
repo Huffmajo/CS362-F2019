@@ -66,13 +66,9 @@ int main()
 	printf("Check that baron is in discard pile\n");
 	testAssert(base.discardCount[1] + 1, test.discardCount[1]);
 
-	// check that baron card is not in hand
-	printf("Check that baron card is not in hand\n");
-	testAssert(base.handCount[1] - 1, test.handCount[1]);
-
-	// check that estate card stack is unchanged
-	printf("Check that estate supply is still full\n");
-	testAssert(base.supplyCount[estate], test.supplyCount[estate]);
+	// check that estate card stack is one fewer than start
+	printf("Check that estate supply is 1 fewer than at start\n");
+	testAssert(base.supplyCount[estate] - 1, test.supplyCount[estate]);
 
 	// check that buys in increased by 1
 	printf("Check that buys increased by 1\n");
@@ -88,13 +84,13 @@ int main()
 	printf("Check that 4 coins were added\n");
 	testAssert(base.coins + 4, test.coins);
 
-	// check that estate and baron were added to discard pile
-	printf("Check that estate and baron are in discard pile\n");
-	testAssert(base.discardCount[1] + 2, test.discardCount[1]);
+	// check that estate was added to discard pile
+	printf("Check that estate was added to discard pile\n");
+	testAssert(base.discardCount[1] + 1, test.discardCount[1]);
 
-	// check that baron and estate were removed from hand
-	printf("Check that baron and estate are not in hand\n");
-	testAssert(base.handCount[1] - 2, test.handCount[1]);
+	// check that estate was removed from hand
+	printf("Check that estate was removed from hand\n");
+	testAssert(base.handCount[1], test.handCount[1]);
 
 	// check that estate supply is decremented by one
 	printf("Check that estate supply has two fewer than total\n");
@@ -113,17 +109,13 @@ int main()
 	printf("Check that coins weren't added\n");
 	testAssert(base.coins, test.coins);
 
-	// check that baron card is now in discard pile
-	printf("Check that baron is in discard pile\n");
-	testAssert(base.discardCount[1] + 1, test.discardCount[1]);
-
 	// check that baron card is not in hand
 	printf("Check that baron card is not in hand\n");
-	testAssert(base.handCount[1] - 1, test.handCount[1]);
+	testAssert(base.handCount[1], test.handCount[1]);
 
 	// check that one estate card was depleted from stack
 	printf("Check that estate supply count is depleted by 1\n");
-	testAssert(base.supplyCount[estate], test.supplyCount[estate]);
+	testAssert(base.supplyCount[estate] - 1, test.supplyCount[estate]);
 
 	// check that buys are increased by 1
 	printf("Check that buys increased by 1\n");
