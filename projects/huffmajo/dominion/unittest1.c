@@ -24,9 +24,9 @@ int main()
 
 	// choose not to discard an estate, draw an estate
 	printf("\nTEST 1: Play Baron and choose not to discard an estate\n");
-	memcpy(&test, &base, sizeof(struct gameState)); // refresh test state
 	base.hand[player][0] = baron; // load hand with a baron and an estate
 	base.hand[player][1] = estate;
+	memcpy(&test, &base, sizeof(struct gameState)); // refresh test state
 	choice1 = 0; // don't discard estate
 	baronEffect(&test, choice1, player); // play card
 
@@ -51,9 +51,9 @@ int main()
 	testAssert(base.numBuys + 1, test.numBuys);
 
 	printf("\nTEST 2: Play Baron and choose to discard an estate with an estate in hand\n");
-	memcpy(&test, &base, sizeof(struct gameState)); // refresh test state
 	base.hand[player][0] = baron; // load hand with a baron and an estate
 	base.hand[player][1] = estate;
+	memcpy(&test, &base, sizeof(struct gameState)); // refresh test state
 	choice1 = 1; // discard estate, gain 4 coins
 	baronEffect(&test, choice1, player); // play card
 
@@ -78,12 +78,12 @@ int main()
 	testAssert(base.numBuys + 1, test.numBuys);
 
 	printf("\nTEST 3: Play Baron and choose to discard an estate WITHOUT an estate in hand\n");
+	base.hand[player][0] = baron; // load hand with baron and 4 coppers, NO estates
+	base.hand[player][1] = copper;
+	base.hand[player][2] = copper;
+	base.hand[player][3] = copper;
+	base.hand[player][4] = copper;
 	memcpy(&test, &base, sizeof(struct gameState)); // refresh test state
-	base.hand[player][0] = baron; // load hand with all barons
-	base.hand[player][1] = baron;
-	base.hand[player][2] = baron;
-	base.hand[player][3] = baron;
-	base.hand[player][4] = baron;
 	choice1 = 1; // try to discard estate
 	baronEffect(&test, choice1, player); // play card
 
