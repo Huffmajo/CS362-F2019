@@ -133,5 +133,5 @@ int main()
 
 	printf("Unit Test Complete\n");
 
-	return 1;
+	return 0;
 }

@@ -38,21 +38,14 @@ unittest5: unittest5.c dominion.o rngs.o interface.o
 
 # may need edits
 unittestresults: unittest1 unittest2 unittest3 unittest4 unittest5
-	./unittest1 &> unittestresults.out
+	rm -f unittestresults.out
+	./unittest1 >> unittestresults.out
 	./unittest2 >> unittestresults.out
 	./unittest3 >> unittestresults.out
 	./unittest4 >> unittestresults.out
 	./unittest5 >> unittestresults.out
-	gcov unittest1.c >> unittestresults.out
-	gcov unittest2.c >> unittestresults.out
-	gcov unittest3.c >> unittestresults.out
-	gcov unittest4.c >> unittestresults.out
-	gcov unittest5.c >> unittestresults.out
-	gcov unittest1.c -b -f >> unittestresults.out
-	gcov unittest2.c -b -f >> unittestresults.out
-	gcov unittest3.c -b -f >> unittestresults.out
-	gcov unittest4.c -b -f >> unittestresults.out
-	gcov unittest5.c -b -f >> unittestresults.out
+	gcov dominion.c >> unittestresults.out
+	gcov dominion.c -b -f >> unittestresults.out
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
