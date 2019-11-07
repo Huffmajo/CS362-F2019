@@ -1421,7 +1421,7 @@ int mineEffect(struct gameState *state, int choice1, int choice2, int handPos, i
     int toBeTrashed = state->hand[currentPlayer][choice1];  //store card we will trash
 
 	// must be treasure
-    if (cardType(choice1) != 1)
+    if (cardType(state->hand[currentPlayer][choice1]) != 1)
     {
         return 1;
     }

@@ -14,6 +14,7 @@ int main()
 	int k[10] = {adventurer, council_room, feast, gardens, mine, remodel, smithy, village, baron, great_hall};
 	int seed = 1000;
 	int choice1;
+	int player = 0;
 
 	// initialize game
 	initializeGame(numPlayers, k, seed, &base);
@@ -24,24 +25,26 @@ int main()
 	// choose not to discard an estate, draw an estate
 	printf("\nTEST 1: Play Baron and choose not to discard an estate\n");
 	memcpy(&test, &base, sizeof(struct gameState)); // refresh test state
+	base.hand[player][0] = baron; // load hand with a baron and an estate
+	base.hand[player][1] = estate;
 	choice1 = 0; // don't discard estate
-	baronEffect(&test, choice1, 1); // play card
+	baronEffect(&test, choice1, player); // play card
 
 	// check that coins didn't change
 	printf("Check that coins weren't added\n");
 	testAssert(base.coins, test.coins);
 
-	// check that estate was not added to discard pile
-	printf("Check that no estate is in discard pile\n");
-	testAssert(base.discardCount[1] + 1, test.discardCount[1]);
-
-	// check that baron card is now in discard pile
-	printf("Check that baron is in discard pile\n");
-	testAssert(base.discardCount[1] + 1, test.discardCount[1]);
+	// check that estate was not added to discard pile, only baron
+	printf("Check that only the baron card was discarded\n");
+	testAssert(base.discardCount[player] + 1, test.discardCount[player]);
 
 	// check that estate card stack is one fewer than start
 	printf("Check that estate supply is 1 fewer than at start\n");
 	testAssert(base.supplyCount[estate] - 1, test.supplyCount[estate]);
+
+	// check that drawn estate replaces played baron
+	printf("Hand size should not change, drawn estate replaces played baron\n");
+	testAssert(base.handCount[player], test.handCount[player]);
 
 	// check that buys in increased by 1
 	printf("Check that buys increased by 1\n");
@@ -49,23 +52,24 @@ int main()
 
 	printf("\nTEST 2: Play Baron and choose to discard an estate with an estate in hand\n");
 	memcpy(&test, &base, sizeof(struct gameState)); // refresh test state
+	base.hand[player][0] = baron; // load hand with a baron and an estate
+	base.hand[player][1] = estate;
 	choice1 = 1; // discard estate, gain 4 coins
-	addCardToHand(1, 1, &test); // add estate card to hand
-	baronEffect(&test, choice1, 1); // play card
+	baronEffect(&test, choice1, player); // play card
 
 	// check that coins increased by 4
 	printf("Check that 4 coins were added\n");
 	testAssert(base.coins + 4, test.coins);
 
-	// check that estate was added to discard pile
-	printf("Check that estate was added to discard pile\n");
-	testAssert(base.discardCount[1] + 1, test.discardCount[1]);
+	// check that estate and baron were discarded
+	printf("Check that baron and estate were added to discard pile\n");
+	testAssert(base.discardCount[player] + 2, test.discardCount[player]);
 
 	// check that estate was removed from hand
-	printf("Check that estate was removed from hand\n");
-	testAssert(base.handCount[1], test.handCount[1]);
+	printf("Check that estate and baron were removed from hand\n");
+	testAssert(base.handCount[player] - 2, test.handCount[player]);
 
-	// check that estate supply is decremented by one
+	// check that estate supply is decremented by two
 	printf("Check that estate supply has two fewer than total\n");
 	testAssert(base.supplyCount[estate] - 2, test.supplyCount[estate]);
 
@@ -75,16 +79,21 @@ int main()
 
 	printf("\nTEST 3: Play Baron and choose to discard an estate WITHOUT an estate in hand\n");
 	memcpy(&test, &base, sizeof(struct gameState)); // refresh test state
+	base.hand[player][0] = baron; // load hand with all barons
+	base.hand[player][1] = baron;
+	base.hand[player][2] = baron;
+	base.hand[player][3] = baron;
+	base.hand[player][4] = baron;
 	choice1 = 1; // try to discard estate
-	baronEffect(&test, choice1, 1); // play card
+	baronEffect(&test, choice1, player); // play card
 
 	// check that coins didn't change
 	printf("Check that coins weren't added\n");
 	testAssert(base.coins, test.coins);
 
 	// check that baron card is not in hand
-	printf("Check that baron card is not in hand\n");
-	testAssert(base.handCount[1], test.handCount[1]);
+	printf("Hand size should remain the same, drawn estate replaces discarded baron. \n");
+	testAssert(base.handCount[player], test.handCount[player]);
 
 	// check that one estate card was depleted from stack
 	printf("Check that estate supply count is depleted by 1\n");

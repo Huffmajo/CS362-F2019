@@ -19,7 +19,7 @@ int main()
 
 	// initialize game
 	initializeGame(numPlayers, k, seed, &base);
-	base.hand[1][0] = minion; // add minion card to hand
+	base.hand[player][0] = minion; // add minion card to hand
 
 	// start testing
 	printf("**************************\n* Minion Unit Test Start *\n**************************\n");
@@ -44,6 +44,12 @@ int main()
 
 	printf("\nTEST 2: Play Minion and choose to discard hand and draw cards. Opponent has 5 cards in hand\n");
 	memcpy(&test, &base, sizeof(struct gameState)); // refresh test state
+	base.hand[opponent][0] = copper; // fill opponents hand with 5 cards
+	base.hand[opponent][1] = copper;
+	base.hand[opponent][2] = copper;
+	base.hand[opponent][3] = copper;
+	base.hand[opponent][4] = copper;
+	base.handCount[opponent] = 5;
 	choice1 = 0; // discard hand and draw 4 cards
 	handPos = 0; // position of minion card in hand
 	minionEffect(&test, choice1, handPos, player); // play card
@@ -74,11 +80,12 @@ int main()
 
 	printf("\nTEST 3: Play Minion and choose to discard hand and draw cards. Opponent has no cards in hand\n");
 	memcpy(&test, &base, sizeof(struct gameState)); // refresh test state
-	discardCard(0, opponent, &base, 1); // trash all cards in opponents hand
-	discardCard(1, opponent, &base, 1);
-	discardCard(2, opponent, &base, 1);
-	discardCard(3, opponent, &base, 1);
-	discardCard(4, opponent, &base, 1);
+	base.hand[opponent][0] = -1; // empty opponents hand
+	base.hand[opponent][1] = -1;
+	base.hand[opponent][2] = -1;
+	base.hand[opponent][3] = -1;
+	base.hand[opponent][4] = -1;
+	base.handCount[opponent] = 0;
 	choice1 = 0; // discard hand and draw 4 cards
 	handPos = 0; // position of minion card in hand
 	minionEffect(&test, choice1, handPos, player); // play card
