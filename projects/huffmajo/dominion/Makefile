@@ -36,7 +36,6 @@ unittest4: unittest4.c dominion.o rngs.o interface.o
 unittest5: unittest5.c dominion.o rngs.o interface.o
 	gcc -o unittest5 -g unittest5.c dominion.o rngs.o interface.o $(CFLAGS)
 
-# may need edits
 unittestresults: unittest1 unittest2 unittest3 unittest4 unittest5
 	rm -f unittestresults.out
 	./unittest1 >> unittestresults.out
@@ -46,6 +45,7 @@ unittestresults: unittest1 unittest2 unittest3 unittest4 unittest5
 	./unittest5 >> unittestresults.out
 	gcov dominion.c >> unittestresults.out
 	gcov dominion.c -b -f >> unittestresults.out
+	cat unittestresults.out
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)

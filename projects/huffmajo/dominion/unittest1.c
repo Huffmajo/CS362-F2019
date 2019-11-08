@@ -69,9 +69,9 @@ int main()
 	printf("Check that estate and baron were removed from hand\n");
 	testAssert(base.handCount[player] - 2, test.handCount[player]);
 
-	// check that estate supply is decremented by two
-	printf("Check that estate supply has two fewer than total\n");
-	testAssert(base.supplyCount[estate] - 2, test.supplyCount[estate]);
+	// check that estate supply is same
+	printf("Check that estate supply is untouched\n");
+	testAssert(base.supplyCount[estate], test.supplyCount[estate]);
 
 	// check that buys in increased by 1
 	printf("Check that buys increased by 1\n");
