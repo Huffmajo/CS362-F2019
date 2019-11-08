@@ -44,7 +44,7 @@ int main()
 
 	printf("\nTEST 2: Play Minion and choose to discard hand and draw cards. Opponent has 5 cards in hand\n");
 	memcpy(&test, &base, sizeof(struct gameState)); // refresh test state
-	base.hand[opponent][0] = copper; // fill opponents hand with 5 cards
+	base.hand[opponent][0] = minion; // fill opponents hand with 5 cards
 	base.hand[opponent][1] = copper;
 	base.hand[opponent][2] = copper;
 	base.hand[opponent][3] = copper;
