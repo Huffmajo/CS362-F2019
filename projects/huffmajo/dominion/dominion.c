@@ -1494,5 +1494,24 @@ int cardType(int card)
 	return type;
 }
 
+/***********************************************************
+* int testPass(int expected, int actual)
+* expected: the determined correct answer
+* actual: the calculated answer
+*
+* Returns 1 if expected and actual values match, otherwise
+* returns 0.
+************************************************************/
+int testPass(int expected, int actual)
+{
+	result = 0;
+
+	if (expected == actual)
+	{
+		result = 1;
+	}
+	return result;
+}
+
 //end of dominion.c
 
