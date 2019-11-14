@@ -30,10 +30,11 @@ rand2: randomtestcard2.c dominion.o rngs.o interface.o
 rand3: randomtestcard3.c dominion.o rngs.o interface.o
 	gcc -o randomtestcard3 -g randomtestcard3.c dominion.o rngs.o interface.o $(CFLAGS)
 
-randomtestresults: rand1 rand2
+randomtestresults: rand1 rand2 rand3
 	rm -f randomtestresults.out
 	./randomtestcard1 >> randomtestresults.out
 	./randomtestcard2 >> randomtestresults.out
+	./randomtestcard3 >> randomtestresults.out
 	gcov dominion.c >> randomtestresults.out
 	gcov dominion.c -b -f >> randomtestresults.out
 	cat randomtestresults.out
