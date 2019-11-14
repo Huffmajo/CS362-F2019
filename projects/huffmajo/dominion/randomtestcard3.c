@@ -46,6 +46,7 @@ int main()
 		pre.handCount[player] = handSize;	// assign randomized handSize
 		handPos = rand() % (handSize + 1);	// position of minion card = 0-(handSize-1)
 		pre.deckCount[nextPlayer] = rand() % 31; // deck size of opponent = 0-30
+		pre.discardCount[nextPlayer] = rand() % 31; // discard size of opponent = 0-30
 
 		// put random cards in player's hand
 		for (m = 0; m < pre.handCount[player]; m++)	// load hand with random cards
@@ -64,6 +65,12 @@ int main()
 		for (m = 0; m < pre.deckCount[nextPlayer]; m++)
 		{
 			pre.deck[nextPlayer][m] = rand() % 27; // random card from all possible cards
+		}
+
+		// put random cards in opponent's discard
+		for (m = 0; m < pre.discardCount[nextPlayer]; m++)
+		{
+			pre.discard[nextPlayer][m] = rand() % 27; // random card from all possible cards
 		}
 
 		// get cardtypes of cards to be revealed from opponents deck
