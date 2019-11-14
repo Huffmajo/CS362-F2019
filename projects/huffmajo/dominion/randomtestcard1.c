@@ -28,6 +28,10 @@ int main()
 	int baronDiscarded = 0;
 	int j = 0;
 
+	// start timer
+	clock_t start, end;
+	start = clock();
+
 	// start testing
 	printf("*********************\n* Baron Random Test *\n**********************\n");
 	for (int i = 0; i < numLoops; i++)
@@ -85,7 +89,12 @@ int main()
 		}
 	}
 
+	// stop timer and calculate time
+	end = clock();
+	double executeTime = ((double) (end - start)) / CLOCKS_PER_SEC;
+
 	// print results
+	printf("Runtime: %f seconds\n", executeTime);
 	printf("TEST 1: +1 buys: %d fails\n", test1Fails);
 	printf("TEST 2: Baron put in discard: %d fails\n", test2Fails);
 	printf("TEST 3: Number of actions unchanged: %d fails\n", test3Fails);
