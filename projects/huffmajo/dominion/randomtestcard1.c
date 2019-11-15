@@ -51,6 +51,16 @@ int main()
 			pre.hand[player][m] = rand() % 27; // random card from all possible cards
 		}
 
+		// randomize supply counts of estates
+		if (numPlayers == 2)
+		{
+			pre.supplyCount[estate] = rand() % 9; // supply of estates = 0-8
+		}
+		else
+		{
+			pre.supplyCount[estate] = rand() % 13; // supply of estates = 0-12
+		}
+
 		// copy game state
 		memcpy(&post, &pre, sizeof(struct gameState));
 
