@@ -13,5 +13,6 @@ int cardEffect(int card, int choice1, int choice2, int choice3,
                struct gameState *state, int handPos, int *bonus);
 int getNextPlayer(int currentPlayer, struct gameState *state);
 int cardType(int card);
+int testPass(int expected, int actual);
 
 #endif

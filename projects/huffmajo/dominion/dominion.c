@@ -1138,7 +1138,7 @@ int baronEffect(struct gameState *state, int choice1, int currentPlayer)
     state->numBuys++;//Increase buys by 1!
     if (choice1 > 0) { //Boolean true or going to discard an estate
         int p = 0;//Iterator for hand!
-        int card_not_discarded = 0;//Flag for discard set!
+        int card_not_discarded = 1;//Flag for discard set!
         while(card_not_discarded) {
             if (state->hand[currentPlayer][p] == estate) { //Found an estate card!
                 state->coins += 4;//Add 4 coins to the amount of coins
@@ -1477,6 +1477,7 @@ int getNextPlayer(int currentPlayer, struct gameState *state)
 * Returns 1: for a treasure card
 *		  2: for a victory card
 *         3: for an action card
+*		  0: for other
 ************************************************************/
 int cardType(int card)
 {
@@ -1490,8 +1491,31 @@ int cardType(int card)
 	{
 		type = 2; //victory
 	}
+	else if (card == curse)
+	{
+		type = 0; //other
+	}
 
 	return type;
+}
+
+/***********************************************************
+* int testPass(int expected, int actual)
+* expected: the determined correct answer
+* actual: the calculated answer
+*
+* Returns 1 if expected and actual values match, otherwise
+* returns 0.
+************************************************************/
+int testPass(int expected, int actual)
+{
+	int result = 0;
+
+	if (expected == actual)
+	{
+		result = 1;
+	}
+	return result;
 }
 
 //end of dominion.c
