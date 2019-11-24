@@ -17,7 +17,7 @@ int main()
 	struct gameState pre, post;
 	int k[10] = {adventurer, council_room, feast, gardens, mine, remodel, smithy, village, baron, great_hall};
 	int seed = 1000;
-	int choice1, handPos, player, numPlayers, handSize;
+	int choice1, choice2, handPos, player, numPlayers, handSize;
 	int m;
 
 	// setup test variables
@@ -44,6 +44,7 @@ int main()
 
 		// set up rest of random values
 		choice1 = rand() % 2;	// choice1 = 0-1
+		choice2 = rand() % 2;	// choice2 = 0-1
 		player = rand() % numPlayers; // current player = 0-numPlayers
 		handSize = pre.handCount[player] = rand() % 11;	// hand size = 0-10
 		handPos = rand() % (handSize + 1);	// position of minion card = 0-(handSize-1)
@@ -64,7 +65,7 @@ int main()
 		memcpy(&post, &pre, sizeof(struct gameState));
 
 		// run card function on post state
-		minionEffect(&post, choice1, handPos, player);
+		minionEffect(handPos, player, &post, choice1, choice2);
 
 		// run tests
 		// Test 1: Actions incremented by 1

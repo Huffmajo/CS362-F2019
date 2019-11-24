@@ -65,7 +65,7 @@ int main()
 		memcpy(&post, &pre, sizeof(struct gameState));
 
 		// run card function on post state
-		baronEffect(&post, choice1, player);
+		baronEffect(player, &post, choice1);
 
 		// run tests
 		// Test 1: Buys incremented by 1

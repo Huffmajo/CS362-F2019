@@ -1506,6 +1506,35 @@ int checkEstateSupply(int estate, struct gameState* state){
 }
 
 /***********************************************************
+* int cardType(int card)
+* card: card integer
+*
+* Returns 1: for a treasure card
+*		  2: for a victory card
+*         3: for an action card
+*		  0: for other
+************************************************************/
+int cardType(int card)
+{
+	int type = 3; //action
+
+	if (card == copper || card == silver || card == gold)
+	{
+		type = 1; //treasure
+	}
+	else if (card == estate || card == duchy || card == province || card == gardens || card == great_hall)
+	{
+		type = 2; //victory
+	}
+	else if (card == curse)
+	{
+		type = 0; //other
+	}
+
+	return type;
+}
+
+/***********************************************************
 * void testAssert(int expected, int actual)
 * expected: the determined correct answer
 * actual: the calculated answer

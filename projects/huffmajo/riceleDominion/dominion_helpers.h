@@ -23,6 +23,7 @@ int checkEstateSupply(int estate, struct gameState* state);
 /* Checks estates remaining in supply pile to determine if game is over */
 
 // Used for Joel's testing
+int cardType(int card);
 void testAssert(int expected, int actual);
 int testPass(int expected, int actual);
 

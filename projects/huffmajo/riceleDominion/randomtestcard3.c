@@ -17,7 +17,7 @@ int main()
 	struct gameState pre, post;
 	int k[10] = {adventurer, council_room, feast, gardens, mine, remodel, smithy, village, baron, great_hall};
 	int seed = 1000;
-	int handPos, player, nextPlayer, numPlayers, handSize;
+	int player, nextPlayer, numPlayers, handSize, handPos;
 	int m;
 
 	// setup test variables
@@ -45,7 +45,14 @@ int main()
 
 		// set up rest of random values
 		player = rand() % numPlayers; // current player = 0-numPlayers
-		nextPlayer = getNextPlayer(player, &pre);	// designate next player after current
+		if (player + 1 >=  numPlayers)
+		{
+				nextPlayer = 0;
+		}
+		else
+		{
+				nextPlayer = player + 1; // designate next player after current
+		}
 		handSize = pre.handCount[player] = rand() % 11;	// hand size = 0-10
 		pre.handCount[player] = handSize;	// assign randomized handSize
 		handPos = rand() % (handSize + 1);	// position of minion card = 0-(handSize-1)
@@ -89,7 +96,7 @@ int main()
 		memcpy(&post, &pre, sizeof(struct gameState));
 
 		// run card function on post state
-		tributeEffect(&post, handPos, player);
+		tributeEffect(player, nextPlayer, &post);
 
 		// run tests
 		// TEST 1: Tribute discarded
