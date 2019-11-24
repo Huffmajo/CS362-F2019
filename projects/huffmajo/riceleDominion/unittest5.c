@@ -104,7 +104,7 @@ int main()
 	printf("Coins are unchanged\n");
 	testAssert(base.coins, test.coins);
 
-	printf("\nTEST 4: Trash gold copper to gain a gold\n");
+	printf("\nTEST 4: Trash gold to gain a gold\n");
 	memcpy(&test, &base, sizeof(struct gameState)); // refresh test state
 	choice1 = 3; // hand position of copper to trash
 	choice2 = gold; // card to get in exchange
