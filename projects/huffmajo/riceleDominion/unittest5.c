@@ -104,24 +104,24 @@ int main()
 	printf("Coins are unchanged\n");
 	testAssert(base.coins, test.coins);
 
-	printf("\nTEST 4: Trash a copper for gain a gold\n");
+	printf("\nTEST 4: Trash gold copper to gain a gold\n");
 	memcpy(&test, &base, sizeof(struct gameState)); // refresh test state
-	choice1 = 1; // hand position of copper to trash
+	choice1 = 3; // hand position of copper to trash
 	choice2 = gold; // card to get in exchange
 	handPos = 0; // hand position of mine
 	returnState = mineEffect(handPos, player, &test, choice1, choice2); // play card
 
-	// should return -1
-	printf("Gold too expensive for copper. should return -1\n");
-	testAssert(-1, returnState);
+	// should return 1
+	printf("Gold for gold is a valid trade. should return 0\n");
+	testAssert(0, returnState);
 
 	// hand unchanged
 	printf("Hand size unchanged\n");
 	testAssert(base.handCount[player], test.handCount[player]);
 
 	// discard should remain unchanged
-	printf("Discard count unchanged\n");
-	testAssert(base.discardCount[player], test.discardCount[player]);
+	printf("Only mine card discarded\n");
+	testAssert(base.discardCount[player] + 1, test.discardCount[player]);
 
 	// actions unchanged
 	printf("Number of actions unchanged\n");
