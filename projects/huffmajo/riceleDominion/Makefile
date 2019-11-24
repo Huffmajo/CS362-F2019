@@ -65,6 +65,8 @@ randomtestresults: rand1 rand2 rand3
 	gcov dominion.c -b -f >> randomtestresults.out
 	cat randomtestresults.out
 
+tests: unittestresults randomtestresults
+
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
 
